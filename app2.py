@@ -1,3 +1,5 @@
+import torch
+import transformers
 from diffusers import StableCascadeCombinedPipeline
 
 pipe = StableCascadeCombinedPipeline.from_pretrained("stabilityai/stable-cascade", variant="bf16", torch_dtype=torch.bfloat16)
