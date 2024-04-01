@@ -1,6 +1,6 @@
 # views.py
 from django.http import JsonResponse
-from main import *
+from storyapp.main import *
 
 def generate_story(request):
     title = request.GET.get('title')
