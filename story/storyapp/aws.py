@@ -5,21 +5,6 @@ import os
 access_key_id = 'AKIAXYKJRRBQSNB7NKG7'
 secret_access_key = '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'
 
-import os
-import boto3
-
-import os
-import boto3
-
-import os
-import boto3
-
-import os
-import boto3
-
-import os
-import boto3
-
 def upload_data_to_s3(directory_path):
     bucket_name = 'story21'
     access_key_id = 'AKIAXYKJRRBQSNB7NKG7'

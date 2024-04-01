@@ -5,7 +5,7 @@ import pandas as pd
 import time 
 import cv2
 from PIL import Image
-from aws import *
+from storyapp.aws import *
 import os
 from storyapp.data_to_video import *
 
