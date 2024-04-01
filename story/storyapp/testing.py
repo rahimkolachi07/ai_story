@@ -5,7 +5,7 @@ url = 'http://18.206.163.235:8000/generate_story/'
 
 # Define parameters for your request
 params = {
-    'title': 'king is the king',
+    'title': 'there is a boy who is the worror of the darknes and missing chiled of the king',
     'lang': 'Hindi',
     'loc': 'Yoo/image',
     'pic': True
