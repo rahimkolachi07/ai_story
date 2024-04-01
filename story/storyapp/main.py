@@ -121,5 +121,5 @@ def delete_folder(folder_path):
 
 
 
-main_story("the son of the king become the fighter of darkness","Hindi","kolcachi",pic=False)
+
 
