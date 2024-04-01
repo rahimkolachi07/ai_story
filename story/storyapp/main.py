@@ -1,13 +1,13 @@
-from gemini.gemini import *
-from image_gen import *
-from gemini.geminivision import *
+from storyapp.gemini.gemini import *
+from storyapp.image_gen import *
+from storyapp.gemini.geminivision import *
 import pandas as pd
 import time 
 import cv2
 from PIL import Image
 from aws import *
 import os
-from data_to_video import *
+from storyapp.data_to_video import *
 
 
 def main_story(title,lang,loc,pic):
