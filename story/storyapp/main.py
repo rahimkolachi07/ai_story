@@ -13,8 +13,10 @@ from data_to_video import *
 def main_story(title,lang,loc,pic):
     if pic:
         download_data_from_s3(loc)
-
-    story1=g_model(f"act as professional story writter with 100 year experience. write an impressive story. its must be correlated and in sequency. the story description is = {title},story language ={lang}. negative prompts= low quality text, boring, not looks story, not attractive. ")
+    try:
+        story1=g_model(f"act as professional story writter with 100 year experience. write an impressive story. its must be correlated and in sequency. the story description is = {title},story language ={lang}. negative prompts= low quality text, boring, not looks story, not attractive. ")
+    except:
+        pass
 
     folder_names = [f'{loc}/audio', f'{loc}/doc', f'{loc}/image', f'{loc}/gif',f'{loc}/video',f'{loc}/raw_images']
 
@@ -27,13 +29,29 @@ def main_story(title,lang,loc,pic):
                 print(f'Folder "{folder_name}" already exists.')
     except Exception as e:
         print(f"An error occurred: {e}")
-    
-    split_essay_into_csv(story1,loc)
-    promp_gen(lang,loc,pic)
-    create_video(loc)
-    upload_data_to_s3(f'{loc}/video/output_video.mp4',object_name=None)
-    time.sleep(10)
-    delete_folder(loc)
+    try:
+        split_essay_into_csv(story1,loc)
+    except:
+        pass
+    try:
+        promp_gen(lang,loc,pic)
+    except:
+        pass
+    try:
+        create_video(loc)
+    except:
+        pass
+
+    try:
+        upload_data_to_s3(f'{loc}/video/output_video.mp4',object_name=None)
+    except:
+        pass
+
+    try:
+        time.sleep(10)
+        delete_folder(loc)
+    except:
+        pass
 
 
     return story1

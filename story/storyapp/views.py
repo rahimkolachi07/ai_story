@@ -14,5 +14,4 @@ def my_view(request):
 
         return HttpResponse("done")
     else:
-        # Return an error response for unsupported methods
         return HttpResponse("issue", status=405)
