@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure--jts7oofi-q0c-qw!!y9jg4^9x3ea_!&(*q7s7i*%ityy+#o&@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['18.206.163.235:8000', '18.206.163.235']
+
 
 
 # Application definition
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storyapp',
 ]
 
 MIDDLEWARE = [
