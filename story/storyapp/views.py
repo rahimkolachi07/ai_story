@@ -1,17 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from main import*
+# views.py
+from django.http import JsonResponse
+from main import main_story
 
+def generate_story(request):
+    title = request.GET.get('title')
+    lang = request.GET.get('lang')
+    loc = request.GET.get('loc')
+    pic = request.GET.get('pic')
 
-def my_view(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        lang = request.POST.get('lang')
-        loc = request.POST.get('loc')
-        pic = request.POST.get('pic')
-
-        main_story(title, lang, loc, pic)
-
-        return HttpResponse("done")
+    if title and lang and loc and pic:
+        result = main_story(title, lang, loc, pic)
+        return "done"
     else:
-        return HttpResponse("issue", status=405)
+        return JsonResponse({'error': 'Missing parameters'}, status=400)

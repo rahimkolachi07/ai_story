@@ -1,6 +1,6 @@
 import requests
 
-url = "http://18.206.163.235:8000/"
+url = "http://18.206.163.235:8000/main-story/"
 data = {
     'title': 'Sample Title',
     'lang': 'Hindi',
