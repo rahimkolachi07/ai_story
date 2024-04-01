@@ -73,14 +73,14 @@ def promp_gen(lang,loc,pic):
     for i in range(len(data)):
         para=data["Paragraph"][i]
         text_to_speech(para,lang,f"{loc}/audio/{i}.mp3")
+
         #upload_data_to_s3(f"{loc}/audio/{i}.mp3")
         try:
             if pic:
                 if image_paths[i]:
                     img=cv2.imread(image_paths[i])
                     image_pro=gv_model(f"i have an image and text. based on both image and text you have to create an image generation prompt which must reflect both things. this is an image = {img} and this is text=f{para}. generate an best prompt and details prompts")
-            else:
-                image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
+            image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
         except:
             pass
         image_gen(loc,image_pro+".high resultion image. negative_prompt = nsfw, lowres, (bad), text, error, fewer, extra, missing, worst quality, jpeg artifacts, low quality, watermark, unfinished, displeasing, oldest, early, chromatic aberration, signature, extra digits, artistic error, username, scan, [abstract]",i)
