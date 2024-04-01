@@ -38,5 +38,3 @@ def image_gen(loc,prompts,i):
             # Display or process the image as needed
             image.save(f"{loc}/image/{i}.png")
             print("part third")
-
-image_gen("data","flaying car",3)

@@ -1,0 +1,180 @@
+import boto3
+import os
+
+# AWS Access Key ID and Secret Access Key
+access_key_id = 'AKIAXYKJRRBQSNB7NKG7'
+secret_access_key = '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'
+
+import os
+import boto3
+
+def upload_data_to_s3(directory_path):
+    bucket_name='story21'
+    access_key_id = 'AKIAXYKJRRBQSNB7NKG7'
+    secret_access_key = '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'
+    # Initialize the S3 client
+    s3_client = boto3.client('s3', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
+
+    try:
+        for root, dirs, files in os.walk(directory_path):
+            for file in files:
+                # Construct the full local file path
+                local_file_path = os.path.join(root, file)
+                # Construct the S3 key (object name) by removing the local directory path
+                s3_key = os.path.relpath(local_file_path, directory_path)
+                # Upload the file to S3
+                s3_client.upload_file(local_file_path, bucket_name, s3_key)
+                print(f"{local_file_path} uploaded to S3 as {s3_key}.")
+
+            for directory in dirs:
+                # Construct the full local directory path
+                local_directory_path = os.path.join(root, directory)
+                # Construct the S3 key (object name) by removing the local directory path
+                s3_key = os.path.relpath(local_directory_path, directory_path)
+                # Upload the directory to S3
+                s3_client.upload_file(local_directory_path, bucket_name, s3_key)
+                print(f"{local_directory_path} uploaded to S3 as {s3_key}.")
+
+    except Exception as e:
+        print(f"An error occurred while uploading data to S3: {e}")
+        return False
+    
+    print(f"All files and folders in {directory_path} uploaded successfully to S3.")
+    return True
+
+
+
+import os
+import boto3
+
+def download_data_from_s3(folder_name):
+    local_directory=f'{folder_name}/raw_images'
+    bucket_name='story21'
+    access_key_id = 'AKIAXYKJRRBQSNB7NKG7'
+    secret_access_key = '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'
+    # Create the local directory if it doesn't exist
+    os.makedirs(local_directory, exist_ok=True)
+    
+    # Initialize the S3 client
+    s3_client = boto3.client('s3', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
+
+    try:
+        # List all objects in the specified S3 folder
+        objects = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=folder_name)
+        for obj in objects.get('Contents', []):
+            # Extract the key (path) of each object
+            s3_key = obj['Key']
+            # Construct the local file path
+            local_path = os.path.join(local_directory, os.path.basename(s3_key))
+            # Download the file from S3
+            s3_client.download_file(bucket_name, s3_key, local_path)
+            print(f"{s3_key} downloaded successfully to {local_path}.")
+    except Exception as e:
+        print(f"An error occurred while downloading files from S3: {e}")
+        return False
+    
+    print(f"All files in {folder_name} downloaded successfully to {local_directory}.")
+    return True
+
+#download_data_from_s3("output", "output", bucket_name='story21')
+
+#upload_data_to_s3('output')
+
+    # AWS credentials
+    
+
+
+def text_to_speech(text, lang, output, output_format='mp3'):
+    language = {
+    'Arabic': 'arb',
+    'Arabic (Gulf)': 'ar-AE',
+    'Catalan': 'ca-ES',
+    'Chinese (Cantonese)': 'yue-CN',
+    'Chinese (Mandarin)': 'cmn-CN',
+    'Danish': 'da-DK',
+    'Dutch (Belgian)': 'nl-BE',
+    'Dutch': 'nl-NL',
+    'English (Australian)': 'en-AU',
+    'English (British)': 'en-GB',
+    'English (Indian)': 'en-IN',
+    'English (New Zealand)': 'en-NZ',
+    'English (South African)': 'en-ZA',
+    'English (US)': 'en-US',
+    'English (Welsh)': 'en-GB-WLS',
+    'Finnish': 'fi-FI',
+    'Hindi': 'hi-IN',
+    'French': 'fr-FR',
+    'French (Belgian)': 'fr-BE',
+    'French (Canadian)': 'fr-CA',
+    'German': 'de-DE',
+    'German (Austrian)': 'de-AT',
+    'Icelandic': 'is-IS',
+    'Italian': 'it-IT',
+    'Japanese': 'ja-JP',
+    'Korean': 'ko-KR',
+    'Norwegian': 'nb-NO',
+    'Polish': 'pl-PL',
+    'Portuguese (Brazilian)': 'pt-BR',
+    'Portuguese (European)': 'pt-PT',
+    'Romanian': 'ro-RO',
+    'Russian': 'ru-RU',
+    'Spanish (European)': 'es-ES',
+    'Spanish (Mexican)': 'es-MX',
+    'Spanish (US)': 'es-US',
+    'Swedish': 'sv-SE',
+    'Turkish': 'tr-TR',
+    'Welsh': 'cy-GB'}
+
+
+
+    polly_client = boto3.client('polly', region_name='us-east-1',
+                                aws_access_key_id = 'AKIAXYKJRRBQY2MQLNAD',
+                                aws_secret_access_key = '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')
+
+    # Get the list of available voices
+    response = polly_client.describe_voices(LanguageCode=language[lang])  
+    print(language[lang])
+
+    voices = response['Voices']
+    print("voice=",voices)
+    z=0
+    if lang=="Hindi":
+        voice_id2='Kajal'
+        z=1
+    else:
+
+        # Iterate over voices to find a suitable voice
+        for voice in voices:
+            if 'neural' in voice["SupportedEngines"]:
+                voice_id2 = voice["Id"]
+                print(voice_id2)
+                z=1
+                break
+            else:
+                voice_id2 = voice["Id"]
+                print(voice_id2)
+
+    try:
+        print(z)
+        # Request the text-to-speech conversion
+        if z==1:  # Check if voice_id2 is assigned a value
+            response = polly_client.synthesize_speech(
+                Text=text,
+                VoiceId=voice_id2,
+                OutputFormat=output_format,
+                Engine="neural"
+            )
+        else:
+            response = polly_client.synthesize_speech(
+                Text=text,
+                VoiceId=voice_id2,
+                OutputFormat=output_format
+            )
+    except Exception as e:
+        print(f'Error synthesizing speech: {e}')
+        return
+
+    # Save the audio stream to a file
+    audio_stream = response['AudioStream'].read()
+    with open(output, 'wb') as file:
+        file.write(audio_stream)
