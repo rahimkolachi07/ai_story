@@ -8,32 +8,45 @@ secret_access_key = 'rduBAxNtevt6SgjcJrbwj0CfXQ/eBwozwutrMHBv'
 import os
 import boto3
 
+import os
+import boto3
+
+import os
+import boto3
+
+import os
+import boto3
+
+import os
+import boto3
+
 def upload_data_to_s3(directory_path):
-    bucket_name='story21'
+    bucket_name = 'story21'
     access_key_id = 'AKIAXYKJRRBQSNB7NKG7'
     secret_access_key = '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'
+
     # Initialize the S3 client
     s3_client = boto3.client('s3', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
 
     try:
+        # Upload files and subfolders to S3
         for root, dirs, files in os.walk(directory_path):
             for file in files:
-                # Construct the full local file path
                 local_file_path = os.path.join(root, file)
-                # Construct the S3 key (object name) by removing the local directory path
-                s3_key = os.path.relpath(local_file_path, directory_path)
-                # Upload the file to S3
-                s3_client.upload_file(local_file_path, bucket_name, s3_key)
-                print(f"{local_file_path} uploaded to S3 as {s3_key}.")
+                relative_path = os.path.relpath(local_file_path, directory_path)
+                relative_dir = os.path.dirname(relative_path)
+                
+                # Construct S3 key based on relative directory path
+                s3_key = os.path.join(relative_dir, file)
 
-            for directory in dirs:
-                # Construct the full local directory path
-                local_directory_path = os.path.join(root, directory)
-                # Construct the S3 key (object name) by removing the local directory path
-                s3_key = os.path.relpath(local_directory_path, directory_path)
-                # Upload the directory to S3
-                s3_client.upload_file(local_directory_path, bucket_name, s3_key)
-                print(f"{local_directory_path} uploaded to S3 as {s3_key}.")
+                # Create folder structure on S3
+                s3_folder_path = os.path.join(os.path.basename(directory_path), relative_dir)
+                s3_folder_path = s3_folder_path.replace('\\', '/')  # for Windows compatibility
+                s3_client.put_object(Bucket=bucket_name, Key=s3_folder_path + '/')
+                
+                # Upload file to S3
+                s3_client.upload_file(local_file_path, bucket_name, s3_folder_path + '/' + file)
+                print(f"{local_file_path} uploaded to S3 as {s3_folder_path + '/' + file}.")
 
     except Exception as e:
         print(f"An error occurred while uploading data to S3: {e}")
@@ -41,6 +54,7 @@ def upload_data_to_s3(directory_path):
     
     print(f"All files and folders in {directory_path} uploaded successfully to S3.")
     return True
+
 
 
 
