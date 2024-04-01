@@ -16,6 +16,7 @@ def main_story(title,lang,loc,pic):
     try:
         story1=g_model(f"act as professional story writter with 100 year experience. write an impressive story. its must be correlated and in sequency. the story description is = {title},story language ={lang}. negative prompts= low quality text, boring, not looks story, not attractive. ")
     except:
+        print("issue with story generation")
         pass
 
     folder_names = [f'{loc}/audio', f'{loc}/doc', f'{loc}/image', f'{loc}/gif',f'{loc}/video',f'{loc}/raw_images']
@@ -28,29 +29,35 @@ def main_story(title,lang,loc,pic):
             else:
                 print(f'Folder "{folder_name}" already exists.')
     except Exception as e:
+        print("issue with folders creation")
         print(f"An error occurred: {e}")
     try:
         split_essay_into_csv(story1,loc)
     except:
+        print("issue with spliting the paragraph")
         pass
     try:
         promp_gen(lang,loc,pic)
     except:
+        print("issue with promp generation")
         pass
     try:
         create_video(loc)
     except:
+        print("issue with video creation" )
         pass
 
     try:
         upload_data_to_s3(f'{loc}/video/output_video.mp4',object_name=None)
     except:
+        print("issue with uploading data")
         pass
 
     try:
         time.sleep(10)
         delete_folder(loc)
     except:
+        print("issue with deleting folders")
         pass
 
 
@@ -119,5 +126,5 @@ def delete_folder(folder_path):
 
 
 
-
+main_story("the son of the king become the fighter of darkness","Hindi","kolcachi",pic=False)
 
