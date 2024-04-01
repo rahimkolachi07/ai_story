@@ -11,7 +11,7 @@ from storyapp.data_to_video import *
 
 
 def main_story(title,lang,loc,pic):
-    if pic:
+    if pic==True:
         download_data_from_s3(loc)
     try:
         story1=g_model(f"act as professional story writter with 100 year experience. write an impressive story. its must be correlated and in sequency. the story description is = {title},story language ={lang}. negative prompts= low quality text, boring, not looks story, not attractive. ")
@@ -76,7 +76,7 @@ def promp_gen(lang,loc,pic):
 
         #upload_data_to_s3(f"{loc}/audio/{i}.mp3")
 
-        if pic:
+        if pic==True:
             if image_paths[i]:
                 img=cv2.imread(image_paths[i])
                 image_pro=gv_model(f"i have an image and text. based on both image and text you have to create an image generation prompt which must reflect both things. this is an image = {img} and this is text=f{para}. generate an best prompt and details prompts")
