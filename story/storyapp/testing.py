@@ -7,8 +7,8 @@ url = 'http://18.206.163.235:8000/generate_story/'
 params = {
     'title': 'king is the king',
     'lang': 'Hindi',
-    'loc': 'Yoo',
-    'pic': False
+    'loc': 'Yoo/image',
+    'pic': True
 }
 
 # Make a GET request to the API endpoint
