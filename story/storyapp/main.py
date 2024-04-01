@@ -65,7 +65,7 @@ def split_essay_into_csv(essay_text,loc):
     paragraphs = essay_text.split('\n\n')
     df = pd.DataFrame(paragraphs, columns=['Paragraph'])
     df.to_csv(f"{loc}/doc/paragraphs.csv", index=False)
-    upload_data_to_s3(f"{loc}/doc/paragraphs.csv",object_name=None)
+    upload_data_to_s3(f"{loc}/doc/paragraphs.csv")
 
 
 
