@@ -43,7 +43,7 @@ def main_story(title,lang,loc,pic):
         pass
 
     try:
-        upload_data_to_s3(f'{loc}/video/output_video.mp4')
+        upload_data_to_s3(loc)
     except:
         print("issue with uploading data")
         pass
@@ -62,7 +62,7 @@ def split_essay_into_csv(essay_text,loc):
     paragraphs = essay_text.split('\n\n')
     df = pd.DataFrame(paragraphs, columns=['Paragraph'])
     df.to_csv(f"{loc}/doc/paragraphs.csv", index=False)
-    upload_data_to_s3(f"{loc}/doc/paragraphs.csv")
+    #upload_data_to_s3(f"{loc}/doc/paragraphs.csv")
 
 
 
@@ -73,7 +73,7 @@ def promp_gen(lang,loc,pic):
     for i in range(len(data)):
         para=data["Paragraph"][i]
         text_to_speech(para,lang,f"{loc}/audio/{i}.mp3")
-        upload_data_to_s3(f"{loc}/audio/{i}.mp3")
+        #upload_data_to_s3(f"{loc}/audio/{i}.mp3")
         try:
             if pic:
                 if image_paths[i]:
