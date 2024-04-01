@@ -34,11 +34,8 @@ def main_story(title,lang,loc,pic):
     
     split_essay_into_csv(story1,loc)
     
-    try:
-        promp_gen(lang,loc,pic)
-    except:
-        print("issue with promp generation")
-        pass
+    
+    promp_gen(lang,loc,pic)
     try:
         create_video(loc)
     except:
@@ -46,7 +43,7 @@ def main_story(title,lang,loc,pic):
         pass
 
     try:
-        upload_data_to_s3(f'{loc}/video/output_video.mp4',object_name=None)
+        upload_data_to_s3(f'{loc}/video/output_video.mp4')
     except:
         print("issue with uploading data")
         pass
@@ -76,7 +73,7 @@ def promp_gen(lang,loc,pic):
     for i in range(len(data)):
         para=data["Paragraph"][i]
         text_to_speech(para,lang,f"{loc}/audio/{i}.mp3")
-        upload_data_to_s3(f"{loc}/audio/{i}.mp3",object_name=None)
+        upload_data_to_s3(f"{loc}/audio/{i}.mp3")
         try:
             if pic:
                 if image_paths[i]:
