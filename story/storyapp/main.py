@@ -32,6 +32,8 @@ def main_story(title,lang,loc,pic):
     promp_gen(lang,loc,pic)
     create_video(loc)
     upload_data_to_s3(f'{loc}/video/output_video.mp4',object_name=None)
+    time.sleep(10)
+    delete_folder(loc)
 
 
     return story1
@@ -84,6 +86,19 @@ def fetch_image_paths(folder_name):
                 
 
     return image_paths
+
+import shutil
+
+def delete_folder(folder_path):
+    try:
+        # Delete the folder and its contents
+        shutil.rmtree(folder_path)
+        print(f"Folder '{folder_path}' deleted successfully.")
+        return True
+    except Exception as e:
+        print(f"An error occurred while deleting folder '{folder_path}': {e}")
+        return False
+
 
 
 
