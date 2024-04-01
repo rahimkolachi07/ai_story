@@ -56,7 +56,7 @@ def main_story(title,lang,loc,pic):
         pass
 
 
-    return "done"
+    return "doneit"
 
 def split_essay_into_csv(essay_text,loc):
     paragraphs = essay_text.split('\n\n')
