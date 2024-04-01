@@ -50,7 +50,7 @@ def main_story(title,lang,loc,pic):
 
     try:
         time.sleep(10)
-        #sdelete_folder(loc)
+        delete_folder(loc)
     except:
         print("issue with deleting folders")
         pass
