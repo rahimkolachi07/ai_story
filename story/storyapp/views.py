@@ -1,6 +1,6 @@
 # views.py
 from django.http import JsonResponse
-from storyapp.main import *
+from .main import main_story
 
 def generate_story(request):
     title = request.GET.get('title')
@@ -10,6 +10,6 @@ def generate_story(request):
 
     if title and lang and loc and pic:
         result = main_story(title, lang, loc, pic)
-        return "done"
+        return JsonResponse({'result': result})
     else:
         return JsonResponse({'error': 'Missing parameters'}, status=400)
