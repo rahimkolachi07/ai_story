@@ -1,16 +1,24 @@
 import requests
 
-url = "http://18.206.163.235:8000/main-story/"
-data = {
-    'title': 'Sample Title',
+# Define the URL of your API endpoint
+url = 'http://18.206.163.235:8000/generate_story/'
+
+# Define parameters for your request
+params = {
+    'title': 'king is the king',
     'lang': 'Hindi',
-    'loc': 'Sample',
+    'loc': 'Yoo',
     'pic': False
 }
 
-try:
-    response = requests.post(url, data=data)
-    response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-    print("Request successful. Response:", response.text)
-except requests.exceptions.RequestException as e:
-    print("Failed to make the request:", e)
+# Make a GET request to the API endpoint
+response = requests.get(url, params=params)
+
+# Check the response status code
+if response.status_code == 200:
+    # If the request was successful, print the result
+    data = response.json()
+    print("Result:", data['result'])
+else:
+    # If there was an error, print the error message
+    print("Error:", response.text)
