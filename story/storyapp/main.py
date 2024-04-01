@@ -31,11 +31,9 @@ def main_story(title,lang,loc,pic):
     except Exception as e:
         print("issue with folders creation")
         print(f"An error occurred: {e}")
-    try:
-        split_essay_into_csv(story1,loc)
-    except:
-        print("issue with spliting the paragraph")
-        pass
+    
+    split_essay_into_csv(story1,loc)
+    
     try:
         promp_gen(lang,loc,pic)
     except:
