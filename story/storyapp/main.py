@@ -43,7 +43,7 @@ def main_story(title,lang,loc,pic):
         pass
 
     try:
-        upload_data_to_s3(loc)
+        data_urls=upload_data_to_s3(loc)
     except:
         print("issue with uploading data")
         pass
@@ -56,7 +56,7 @@ def main_story(title,lang,loc,pic):
         pass
 
 
-    return "doneit"
+    return data_urls
 
 def split_essay_into_csv(essay_text,loc):
     paragraphs = essay_text.split('\n\n')

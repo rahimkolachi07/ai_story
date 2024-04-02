@@ -13,6 +13,8 @@ def upload_data_to_s3(directory_path):
     # Initialize the S3 client
     s3_client = boto3.client('s3', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
 
+    uploaded_files = {}  # Dictionary to store file paths and corresponding S3 URLs
+
     try:
         # Upload files and subfolders to S3
         for root, dirs, files in os.walk(directory_path):
@@ -30,15 +32,27 @@ def upload_data_to_s3(directory_path):
                 s3_client.put_object(Bucket=bucket_name, Key=s3_folder_path + '/')
                 
                 # Upload file to S3
-                s3_client.upload_file(local_file_path, bucket_name, s3_folder_path + '/' + file)
-                print(f"{local_file_path} uploaded to S3 as {s3_folder_path + '/' + file}.")
+                s3_object_key = s3_folder_path + '/' + file
+                s3_client.upload_file(local_file_path, bucket_name, s3_object_key)
+                print(f"{local_file_path} uploaded to S3 as {s3_object_key}.")
+
+                # Set public read ACL for the uploaded object
+                s3_client.put_object_acl(
+                    ACL='public-read',
+                    Bucket=bucket_name,
+                    Key=s3_object_key
+                )
+
+                # Construct S3 URL
+                s3_url = f"https://{bucket_name}.s3.amazonaws.com/{s3_object_key}"
+                uploaded_files[local_file_path] = s3_url
 
     except Exception as e:
         print(f"An error occurred while uploading data to S3: {e}")
-        return False
+        return None
     
     print(f"All files and folders in {directory_path} uploaded successfully to S3.")
-    return True
+    return uploaded_files
 
 
 
