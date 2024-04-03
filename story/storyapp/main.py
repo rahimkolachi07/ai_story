@@ -43,7 +43,7 @@ def main_story(title,lang,loc,pic):
         pass
 
     try:
-        upload_data_to_s3(loc)
+        data_urls=upload_data_to_s3(loc)
     except:
         print("issue with uploading data")
         pass
@@ -56,7 +56,7 @@ def main_story(title,lang,loc,pic):
         pass
 
 
-    return "doneit"
+    return data_urls
 
 def split_essay_into_csv(essay_text,loc):
     paragraphs = essay_text.split('\n\n')
@@ -79,8 +79,11 @@ def promp_gen(lang,loc,pic):
         if pic==True:
             if image_paths[i]:
                 img=cv2.imread(image_paths[i])
-                image_pro=gv_model(f"i have an image and text. based on both image and text you have to create an image generation prompt which must reflect both things. this is an image = {img} and this is text=f{para}. generate an best prompt and details prompts")
-        image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
+                image_pro=gv_model(f"i have an image and text. based on both image and text you have to create an image generation prompt which must reflect both things. and this is text=f{para}. generate an best prompt and details prompts",img)
+            else:
+                image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
+        else:
+            image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
 
         image_gen(loc,image_pro+".high resultion image. negative_prompt = nsfw, lowres, (bad), text, error, fewer, extra, missing, worst quality, jpeg artifacts, low quality, watermark, unfinished, displeasing, oldest, early, chromatic aberration, signature, extra digits, artistic error, username, scan, [abstract]",i)
     return image_pro
@@ -120,5 +123,5 @@ def delete_folder(folder_path):
 
 
 
-
+#main_story("young boy","Hindi","output",False)
 

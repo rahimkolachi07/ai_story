@@ -7,7 +7,7 @@ url = 'http://18.206.163.235:8000/generate_story/'
 params = {
     'title': 'there is a boy who is the worror of the darknes and missing chiled of the king. write long story',
     'lang': 'English (US)',
-    'loc': 'raheem07',
+    'loc': 'hammad',
     'pic': True
 }
 
