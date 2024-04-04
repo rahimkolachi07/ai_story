@@ -77,10 +77,17 @@ def promp_gen(lang,loc,pic):
         #upload_data_to_s3(f"{loc}/audio/{i}.mp3")
 
         if pic==True:
-            if image_paths[i]:
-                img=cv2.imread(image_paths[i])
-                image_pro=gv_model(f"i have an image and text. based on both image and text you have to create an image generation prompt which must reflect both things. and this is text=f{para}. generate an best prompt and details prompts",img)
-            else:
+            try:
+                if image_paths[i]:
+                    try:
+                        img = Image.open(image_paths[i])
+                        image_pro=gv_model(f"i have an image and text. based on both image and text you have to create an image generation prompt which must reflect both things. and this is text=f{para}. generate an best prompt and details prompts",img)
+                    except:
+                        image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
+                else:
+             
+                    image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
+            except:
                 image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")
         else:
             image_pro=g_model(f"convert given text into image generation prompet, prompet must be accurate and reflect the text. image must be hight resolution and landscape. text=f{para}. generate an best prompt and details prompts. focuse must be on charector ")

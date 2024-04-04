@@ -21,4 +21,5 @@ for m in genai.list_models():
 def gv_model(text,img):
    model = genai.GenerativeModel('gemini-pro-vision')
    response = model.generate_content([text,img])
+   print(response)
    return response.text

@@ -44,6 +44,7 @@ def upload_data_to_s3(directory_path):
                 )
 
                 # Construct S3 URL
+                
                 s3_url = f"https://{bucket_name}.s3.amazonaws.com/{s3_object_key}"
                 uploaded_files[local_file_path] = s3_url
 
